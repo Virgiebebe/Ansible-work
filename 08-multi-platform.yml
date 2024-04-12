@@ -1,6 +1,6 @@
 ---
 - name: Install Http server
-  hosts: g1
+  hosts: all
   become: yes
 
   tasks:
@@ -39,4 +39,23 @@
       name: apache2
       enabled: yes
     when: ansible_distribution == "Ubuntu"
+
+  - name: Install HTTPD
+    yum:
+      name: httpd
+      state: present
+    when: ansible_distribution == "Amazon"
+
+  - name: Start Httpd
+    service:
+      name: httpd
+      state: started
+    when: ansible_distribution == "Amazon"
+
+  - name: Enable Httpd
+    service:
+      name: httpd
+      enabled: yes
+    when: ansible_distribution == "Amazon"
+
 ...
